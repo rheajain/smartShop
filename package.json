@@ -1,0 +1,29 @@
+{
+  "name": "smart-shop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rheajain/smartShop.git"
+  },
+  "keywords": [
+    "shopping",
+    "malls",
+    "shops",
+    "market"
+  ],
+  "author": "Rhea Jain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rheajain/smartShop/issues"
+  },
+  "homepage": "https://github.com/rheajain/smartShop#readme",
+  "dependencies": {
+    "geo-nearby": "^2.0.1",
+    "mongoose-geojson-schema": "^2.1.2"
+  }
+}

@@ -1,30 +1,26 @@
 var express = require('express');
 var router = express.Router();
 var app = require('../app');
-var customer = require('../schemas/customer');
+var Customer = require('../schemas/customer');
+var mongoose = require('mongoose');
 
-router.route('/login')
+router.route('/')
 
-    // show the form (GET http://localhost:8080/login)
-    .get(function(req, res) {
-        console.log("Came to this page");
-        res.send('this is the login form');
-    })
+    // .get(function(req, res) {
+    //     console.log("Came to this page");
+    //     res.send('this is the login form');
+    // })
 
-    // process the form (POST http://localhost:8080/login)
     .post(function(req, res) {
-        console.log('processing');
-        res.send('processing the login form!');
-        var person = new customer(req.body);
-        customer.create(req.body, function(err, r){
-            if(err){
-                console.log(err);
-
-            } else{
-                console.log(req.body);
-                console.log(r);
-            }
-        });
+        if(req.body){
+            Customer.findOne({ phoneNo : req.body.phoneNo}).exec().then(function(result){
+                res.send(result);
+            }).catch( function(e){
+                res.status(400).send(e);
+            });
+        } else{
+            res.status(404).send("No details found.");
+        }    
     });
 
-module.exports =router;
+module.exports = router;

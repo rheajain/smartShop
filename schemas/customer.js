@@ -1,10 +1,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var GeoJSON = require('mongoose-geojson-schema');
 
 var customer = new Schema({
-  name:  String,
-  phoneNo: String,
-  emailId:   String,
+  name:  { type: String, default : ""},
+  phoneNo: { type: String, unique: true},
+  emailId:   { type: String, unique: true},
+  mostVisited : [],
+  mostLiked : [],
+  mostBought : [],
+  wishlist : [],
+  cart : [],
+  location : Schema.Types.Point
   //comments: [{ body: String, date: Date }],
   //date: { type: Date, default: Date.now },
 //   hidden: Boolean,
@@ -14,5 +21,5 @@ var customer = new Schema({
 //   }
 });
 
-var customer = mongoose.model('customer', customer);
-module.exports = customer;
+var Customer = mongoose.model('Customer', customer);
+module.exports = Customer;
