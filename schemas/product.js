@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var product = new Schema({
   id:  String,
   name: String,
-  comesUnder : Schema.Types.ObjectId
+  comesUnder : { type: Schema.Types.ObjectId, ref :'Product', default: null}
   //date: { type: Date, default: Date.now },
 //   hidden: Boolean,
 //   meta: {

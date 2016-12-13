@@ -69,7 +69,74 @@ const data = [
 
 router.post('/route', function(req, res){
     if(req.body.list){
-        
+        var list = req.body.list;
+        var toFindShop = [];
+        /*list.forEach( function (item) {
+           if(item.category && item.product){
+               Product.find({name: item.product}).populate({ path : 'comesUnder', populate : { path : 'comesUnder'}}).exec().then(function (result) {
+                   result.forEach( function (ele) {
+                       while(ele.comesUnder!==null){
+                           if(ele.comesUnder.name == item.category){
+                                toFindShop.push(ele._id);
+                                break;
+                           } else{
+                               ele = ele.comesUnder;
+                           }
+                       }
+                       
+                   })
+                   Shop.find({products: toFindShop[0]}).exec().then( function (result){
+                       res.send(result);
+                   }).catch( function(err){
+                       res.status(400).send(err);
+                   });
+               }).catch(function(err){
+                   res.status(400).send(err);
+               });
+           } 
+        });*/
+        var i = 0 ; var finalResult = [];
+        for(i=0; i<list.length; i++)
+         {  var item = list[i];
+            Product.findOne({name : item}).select('_id').exec().then( function (result) {
+                console.log(result);
+                Shop.find({products : {$in : [result._id]}}).select({'name': 1, "_id": 0, 'location': 1}).exec().then( function (_shops) {
+                    var newShop = [];
+                    var j=0;
+                    for( j =0; j<_shops.length; j++){
+                        var a = [];
+                        console.log("a is "+a);
+                        a.push(_shops[j].location.coordinates[0]);
+                        a.push(_shops[j].location.coordinates[1]);
+                        a.push(_shops[j].name +"");
+                        console.log("A is "+JSON.stringify(a));
+                        newShop.push(a);
+                    }
+                    toFindShop.push(newShop);
+                    console.log("TOFINDSHOP is"+ JSON.stringify(toFindShop[i]));
+                    var dataSet = Geo.createCompactSet(toFindShop[0]);
+                    var geo = new Geo(dataSet);
+                    finalResult.push(geo.nearBy(12.934607, 77.625298, 4000));
+                    //res.write(JSON.stringify(geo.nearBy(12.934607, 77.625298, 2000)));
+                    if(finalResult.length===list.length){
+                        res.send(finalResult);
+                    }
+                    //res.send(JSON.stringify(_shops));
+                    console.log(JSON.stringify(_shops));
+                }).catch(function (err) {
+                    res.status(400).send(err);
+                });
+            });
+        }
+
+        //res.send(finalResult);
+        // var al = toFindShop;
+        // console.log("al is "+al);
+        // const dataSet = Geo.createCompactSet(al);
+        // const geo = new Geo(dataSet);
+        // res.send(geo.nearBy(12.934607, 77.625298, 2000));
+
+        //res.send(toFindShop);
     } else{
         res.status(404).send("Wishlist not found.");
     }
@@ -84,7 +151,7 @@ router.get('/:keyword', function(req, res){
             res.send(result);
         }).catch( function(err){
             res.status(400).send(err);
-        })
+        });
     }
 });
 

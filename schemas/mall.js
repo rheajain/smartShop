@@ -9,8 +9,8 @@ var mall = new Schema({
   closingTime : String,
   OpeningTime : String,
   rating : Number,
-  products : [Schema.Types.ObjectId],
-  shops : [Schema.Types.ObjectId],
+  products : [{ type: Schema.Types.ObjectId, ref : 'Product'}],
+  shops : [{ type: Schema.Types.ObjectId, ref : 'Shop'}],
   reviews : [{ body: String, date: Date }],
   offers : [],
   location : mongoose.Schema.Types.Point
@@ -22,5 +22,5 @@ var mall = new Schema({
 //   }
 });
 
-var Mall = mongoose.model('mall', mall);
+var Mall = mongoose.model('Mall', mall);
 module.exports = Mall;

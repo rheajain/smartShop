@@ -11,7 +11,8 @@ var customer = new Schema({
   mostBought : [],
   wishlist : [],
   cart : [],
-  location : Schema.Types.Point
+  location : Schema.Types.Point,
+  password : String
   //comments: [{ body: String, date: Date }],
   //date: { type: Date, default: Date.now },
 //   hidden: Boolean,

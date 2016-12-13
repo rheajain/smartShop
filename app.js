@@ -23,6 +23,8 @@ app.use('/shop', shop);
 app.use('/login', login);
 //app.use('/users', users);
 
+app.use(express.static('images'));
+
 app.get("/signUp", function(req, res){
     res.status(200).send({otp:"123"});
 });
@@ -51,7 +53,7 @@ app.post("/register", function (req, res) {
     }
 });
 
-var server = app.listen(8080,'0.0.0.0',function () {
+var server = app.listen(8088, '0.0.0.0',function () {
    var host = server.address().address;
    var port = server.address().port;
    console.log("Example app listening at http://%s:%s", host, port);

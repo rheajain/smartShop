@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var app = require('../app');
+var mongoose = require('mongoose');
 var Shop = require('../schemas/shop');
 
 
@@ -30,6 +31,23 @@ router.get("/:id", function(req, res) {
     });
 });
 
+router.get("/del/:id", function(req, res) {
+    console.log("Getting information of shop with id- ", req.params.id);
+    Shop.remove({_id :req.params.id}).exec().then( function(result){
+        if(result){
+            res.send(result);
+        } else{
+            res.status(404).send("Resource not found.");
+        }
+    }).catch( function(err){
+        res.status(400).send(err);
+    });
+});
+
+router.post("/test", function(req, res){
+    
+});
+
 router.route('/')
 
     .get(function(req, res){
@@ -48,6 +66,9 @@ router.route('/')
     .post(function(req, res) {
         console.log('Creating a new shop');
         if(req.body){
+            req.body.products = req.body.products.map( function(p){
+                return mongoose.Types.ObjectId(p);
+            });
             var shop = new Shop(req.body);
             Shop.create(shop).then(function(result){
                 res.send(result);

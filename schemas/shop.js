@@ -5,11 +5,11 @@ var GeoJSON = require('mongoose-geojson-schema');
 var shop = new Schema({
   id:  String,
   name: String,
-  emailId:   { type: String, unique : true},
+  emailId:   { type: String},
   closingTime : String,
   OpeningTime : String,
   rating : Number,
-  products : [Schema.Types.ObjectId],
+  products : [{type: Schema.Types.ObjectId, ref: 'Product'}],
   priceRange : String,
   reviews : [{ body: String, date: Date }],
   offers : [],

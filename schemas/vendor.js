@@ -6,7 +6,7 @@ var vendor = new Schema({
   name:  String,
   phoneNo: String,
   emailId:   String,
-  shop : Shop._id
+  shop : [{ type: Schema.Types.ObjectId, ref : 'Shop'}]
   //comments: [{ body: String, date: Date }],
   //date: { type: Date, default: Date.now },
 //   hidden: Boolean,
